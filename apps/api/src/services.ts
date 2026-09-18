@@ -12,7 +12,7 @@ import type { Services } from './context.js';
  * usable at all — so it is explicit and printed once, not hidden.
  */
 export async function createServices(overrides: Partial<StratumConfig> = {}): Promise<Services> {
-  const config = { ...loadConfig(), ...overrides } as StratumConfig;
+  const config = loadConfig(overrides as Record<string, string | undefined>);
   const logger = createLogger({ level: config.LOG_LEVEL, service: 'stratum-api' });
 
   const db = new PostgresAdapter({

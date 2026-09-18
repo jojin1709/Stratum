@@ -59,10 +59,22 @@ export class PostgresAdapter implements DatabaseAdapter {
       return s;
     });
 
+    const useSsl = opts.connectionString.includes('sslmode=require') ||
+      opts.connectionString.includes('sslmode=prefer') ||
+      opts.connectionString.includes('ssl=true') ||
+      opts.connectionString.includes('aivencloud.com') ||
+      opts.connectionString.includes('neon.tech') ||
+      opts.connectionString.includes('supabase.co');
+
+    const cleanConnectionString = useSsl
+      ? opts.connectionString.replace(/([?&])sslmode=[^&]+(&|$)/, '$1').replace(/\?$/, '').replace(/&$/, '')
+      : opts.connectionString;
+
     this.pool = new Pool({
-      connectionString: opts.connectionString,
+      connectionString: cleanConnectionString,
       options: `-c search_path=${searchPath.join(',')}`,
       max: opts.max ?? 10,
+      ssl: useSsl ? { rejectUnauthorized: false } : undefined,
       application_name: opts.applicationName ?? 'stratum',
       statement_timeout: opts.statementTimeoutMs ?? 15_000,
       idleTimeoutMillis: 30_000,
