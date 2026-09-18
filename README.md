@@ -9,15 +9,19 @@
 
 ### The Modern, Lightweight Backend-as-a-Service for Mission-Critical Web & Edge Applications
 
-**Developed by [Jojin John](https://github.com/jojin1709)**
+**Developed by [Jojin John](https://github.com/jojin1709) • [LinkedIn Profile](https://www.linkedin.com/in/jojin-john/)**
 
 [![Live Console](https://img.shields.io/badge/Live%20Console-stratum--sh.vercel.app-blue?style=flat-square&logo=vercel)](https://stratum-sh.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Jojin%20John-0077b5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/jojin-john/)
+[![GitHub](https://img.shields.io/badge/GitHub-@jojin1709-181717?style=flat-square&logo=github)](https://github.com/jojin1709)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-Monorepo-ef4444?style=flat-square&logo=turborepo)](https://turbo.build/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.6-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
 [![Cloudflare Hyperdrive & R2](https://img.shields.io/badge/Cloudflare-Hyperdrive_%26_R2-f38020?style=flat-square&logo=cloudflare)](https://cloudflare.com/)
+[![Security Policy](https://img.shields.io/badge/Security-Policy-blue?style=flat-square)](./SECURITY.md)
+[![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?style=flat-square)](./CODE_OF_CONDUCT.md)
+[![Contributing](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square)](./CONTRIBUTING.md)
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](./LICENSE)
-[![Tests Passing](https://img.shields.io/badge/Tests-154%20Passing-success?style=flat-square&logo=vitest)](./STATUS.md)
 
 ```bash
 # Initialize a new Stratum project in seconds
@@ -278,6 +282,19 @@ docker compose logs -f api
 
 ---
 
+## 🤝 Community & Governance
+
+Stratum is built and maintained by **Jojin John** ([@jojin1709](https://github.com/jojin1709)). We adhere to strict engineering, security, and community standards:
+
+- 🛡️ **[Security Policy](./SECURITY.md)**: Vulnerability disclosure & cryptographic integrity.
+- 📜 **[Code of Conduct](./CODE_OF_CONDUCT.md)**: Contributor Covenant v2.1 standard.
+- 🛠️ **[Contributing Guide](./CONTRIBUTING.md)**: Monorepo workflow, PR guidelines, and testing requirements.
+- 💬 **[Support Portal](./SUPPORT.md)**: Documentation links, direct contact, and enterprise inquiries.
+- 📝 **[Changelog](./CHANGELOG.md)**: Release versioning notes and breaking changes.
+- 🌐 **[LinkedIn Profile](https://www.linkedin.com/in/jojin-john/)**: Connect directly with creator Jojin John.
+
+---
+
 ## 📜 License & Intellectual Property
 
 **Copyright (c) 2026 Jojin John. All Rights Reserved.**
@@ -291,5 +308,5 @@ Unauthorized copying, cloning, modifying, distributing, sublicensing, or making 
 <div align="center">
   <img src="https://raw.githubusercontent.com/jojin1709/Stratum/main/apps/dashboard/public/logo.png" width="40" height="40" alt="Stratum Logo" />
   <br />
-  <b>Stratum BaaS — Developed with precision by Jojin John.</b>
+  <b>Stratum BaaS — Developed with precision by <a href="https://www.linkedin.com/in/jojin-john/">Jojin John</a>.</b>
 </div>

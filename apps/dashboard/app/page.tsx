@@ -5,7 +5,8 @@ import Link from 'next/link';
 import {
   Database, Zap, Boxes, Radio, KeyRound, Shield, Terminal, ArrowRight,
   Github, CheckCircle2, Cpu, Globe, Server, Layers, Code2, Sparkles,
-  ExternalLink, ChevronRight, Activity, Copy, Check, BarChart3, Cloud, FileCode2, BookOpen
+  ExternalLink, ChevronRight, Activity, Copy, Check, BarChart3, Cloud, FileCode2, BookOpen,
+  Linkedin
 } from 'lucide-react';
 
 interface AuthUser {
@@ -700,6 +701,15 @@ const subscription = stratum
                 Unlocking digital realms as an ethical hacker by day, crafting seamless experiences as a full stack developer by night. <span className="text-blue-600 dark:text-blue-400 font-semibold">#CyberGuardian #CodeWizard</span>. Architected <strong>Stratum</strong> to deliver the fastest, self-hostable, serverless Backend-as-a-Service on top of PostgreSQL and Edge computing.
               </p>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-2">
+                <a
+                  href="https://www.linkedin.com/in/jojin-john/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors dark:text-blue-400"
+                >
+                  <Linkedin className="h-4 w-4" />
+                  <span>LinkedIn Profile</span>
+                </a>
                 <a
                   href="https://github.com/jojin1709"
                   target="_blank"
