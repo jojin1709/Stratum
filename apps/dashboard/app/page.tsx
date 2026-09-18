@@ -106,9 +106,6 @@ const subscription = stratum
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-base font-bold tracking-tight text-ink">Stratum</span>
-                <span className="inline-flex rounded-full border border-line bg-sunken px-2.5 py-0.5 text-[11px] font-mono text-ink-soft">
-                  v0.1.0 • by Jojin John
-                </span>
               </div>
             </Link>
           </div>
