@@ -1,0 +1,11 @@
+name = "stratum-api"
+main = "src/worker.ts"
+compatibility_date = "2024-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+NODE_ENV = "production"
+STORAGE_DRIVER = "local"
+STRATUM_PUBLIC_KEY = "strat_public_owO3MYIDdkX5L7A2aVDYvSYDmZFhdkoE"
+STRATUM_SECRET_KEY = "strat_secret_3VaZu6akUJyh52qOPs1HXldzE4aSlSvS"
+CLOUDFLARE_ACCOUNT_ID = "13dd0437a22fdecac5651cb2eda239fa"
