@@ -25,7 +25,10 @@
 
 ```bash
 # Initialize a new Stratum project in seconds
-npx @stratum/cli init my-app
+npx @jojin1709/stratum-cli init my-app
+
+# Or install the official client SDK
+npm install @jojin1709/stratum
 ```
 
 </div>
@@ -228,9 +231,9 @@ High-throughput WebSocket multiplexer broadcasting PostgreSQL table row alterati
 ### 4. Functions & Edge Runtime (`@stratum/functions`)
 Enables zero-overhead local execution of TypeScript/JavaScript serverless handlers and seamless packaging into Cloudflare Workers.
 
-### 5. Isomorphic Client SDK (`@stratum/client`)
+### 5. Isomorphic Client SDK (`@jojin1709/stratum`)
 ```typescript
-import { createClient } from '@stratum/client';
+import { createClient } from '@jojin1709/stratum';
 
 const stratum = createClient({
   url: 'https://stratum-api.jojin1709.workers.dev',
