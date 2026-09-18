@@ -84,7 +84,7 @@ export function metaRoutes(services: Services) {
       },
       realtime: {
         enabled: config.REALTIME_ENABLED,
-        connections: stats.subscribers,
+        connections: stats.connections,
         channels: stats.channels,
         tables: realtimeTables.length,
       },

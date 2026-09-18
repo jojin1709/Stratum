@@ -25,10 +25,10 @@ async function getApp(env: Record<string, string | undefined>) {
 }
 
 export default {
-  async fetch(request: Request, env: Record<string, string | undefined>, ctx: { waitUntil: (p: Promise<unknown>) => void }): Promise<Response> {
+  async fetch(request: Request, env: Record<string, string | undefined> = {}, ctx?: unknown): Promise<Response> {
     try {
       const app = await getApp(env);
-      return await app.fetch(request, env, ctx);
+      return await app.fetch(request, env as never, ctx as never);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       return new Response(JSON.stringify({ error: { code: 'INTERNAL_ERROR', message } }), {
