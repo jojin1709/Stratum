@@ -46,12 +46,16 @@ export function Field({ label, hint, children }: { label: string; hint?: string;
   );
 }
 
-export function Panel({ title, action, children }: { title?: string; action?: ReactNode; children: ReactNode }) {
+export function Panel({ title, action, children, className = '' }: { title?: React.ReactNode; action?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className="rounded border border-line bg-surface">
+    <section className={`rounded border border-line bg-surface ${className}`}>
       {title ? (
         <header className="flex h-10 items-center justify-between gap-3 border-b border-line px-3">
-          <h2 className="text-[13px] font-semibold text-ink">{title}</h2>
+          {typeof title === 'string' ? (
+            <h2 className="text-[13px] font-semibold text-ink">{title}</h2>
+          ) : (
+            title
+          )}
           {action}
         </header>
       ) : null}
