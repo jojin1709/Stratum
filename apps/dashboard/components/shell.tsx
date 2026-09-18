@@ -245,14 +245,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center gap-3.5">
             <ProjectStatus />
-            <a
-              href="/bf/api/v1/openapi.json"
-              target="_blank"
-              rel="noreferrer"
-              className="text-xs font-medium text-ink-soft hover:text-blue-600 hidden sm:inline-block transition-colors"
+            <Link
+              href="/docs"
+              className="text-xs font-semibold text-ink-soft hover:text-blue-600 hidden sm:inline-flex items-center gap-1 transition-colors"
             >
-              OpenAPI Spec
-            </a>
+              <BookOpen className="h-3.5 w-3.5" />
+              <span>API Reference</span>
+            </Link>
             <ThemeToggle />
             <div className="h-4 w-px bg-line" />
             <AuthNav />

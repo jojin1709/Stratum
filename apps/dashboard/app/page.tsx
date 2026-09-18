@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   Database, Zap, Boxes, Radio, KeyRound, Shield, Terminal, ArrowRight,
   Github, CheckCircle2, Cpu, Globe, Server, Layers, Code2, Sparkles,
-  ExternalLink, ChevronRight, Activity, Copy, Check, BarChart3, Cloud, FileCode2
+  ExternalLink, ChevronRight, Activity, Copy, Check, BarChart3, Cloud, FileCode2, BookOpen
 } from 'lucide-react';
 
 interface AuthUser {
@@ -289,15 +289,13 @@ const subscription = stratum
                 <span>Continue with GitHub</span>
               </a>
             )}
-            <a
-              href="/bf/api/v1/openapi.json"
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              href="/docs"
               className="flex h-11 w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-800 shadow-xs hover:bg-slate-50 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
             >
-              <Code2 className="h-4 w-4 text-slate-500" />
-              <span>Live OpenAPI Spec</span>
-            </a>
+              <BookOpen className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <span>Interactive API Docs</span>
+            </Link>
           </div>
 
           {/* 4-Metric Ribbon Grid */}

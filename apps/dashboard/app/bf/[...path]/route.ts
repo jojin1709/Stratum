@@ -27,6 +27,14 @@ function missingKey(): NextResponse {
 }
 
 async function forward(request: NextRequest, path: string[]): Promise<Response> {
+  const pathStr = path.join('/');
+  const accept = request.headers.get('accept') || '';
+
+  // If a browser visits openapi.json directly in a tab, redirect to the rich interactive /docs UI
+  if (pathStr === 'api/v1/openapi.json' && accept.includes('text/html')) {
+    return NextResponse.redirect(new URL('/docs', request.nextUrl.origin));
+  }
+
   if (!SECRET) return missingKey();
 
   const target = new URL(`${API_URL.replace(/\/$/, '')}/${path.join('/')}`);
