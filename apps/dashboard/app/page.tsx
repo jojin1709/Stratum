@@ -760,7 +760,10 @@ const subscription = stratum
       {/* Footer */}
       <footer className="border-t border-line bg-white dark:bg-slate-950 py-8 text-center text-xs text-slate-400">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900/5 p-1 border border-line shadow-2xs dark:bg-slate-800">
+              <img src="/logo.png" alt="Stratum Logo" className="h-full w-full object-contain" />
+            </div>
             <span className="font-bold text-slate-800 dark:text-slate-200">Stratum</span>
             <span>— Developed by Jojin John</span>
           </div>
