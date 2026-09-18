@@ -24,24 +24,11 @@ export function AuthNav() {
         if (data?.user) {
           setUser(data.user);
         } else {
-          // If no session yet, auto-load Jojin profile as default
-          setUser({
-            login: 'jojin1709',
-            name: 'Jojin John',
-            avatar_url: 'https://avatars.githubusercontent.com/u/102925763?v=4',
-            html_url: 'https://github.com/jojin1709',
-            email: 'jojinn1709@gmail.com',
-          });
+          setUser(null);
         }
       })
       .catch(() => {
-        setUser({
-          login: 'jojin1709',
-          name: 'Jojin John',
-          avatar_url: 'https://avatars.githubusercontent.com/u/102925763?v=4',
-          html_url: 'https://github.com/jojin1709',
-          email: 'jojinn1709@gmail.com',
-        });
+        setUser(null);
       })
       .finally(() => setLoading(false));
 
@@ -58,6 +45,7 @@ export function AuthNav() {
     await fetch('/api/auth/logout', { method: 'POST' });
     setUser(null);
     setMenuOpen(false);
+    window.location.href = '/';
   };
 
   if (loading) {

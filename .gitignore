@@ -15,5 +15,4 @@ pgdata/
 .DS_Store
 playwright-report/
 test-results/
-*.timestamp-*.mjs
-
+scripts/

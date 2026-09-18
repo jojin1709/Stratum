@@ -13,8 +13,20 @@ export function apiKeyAuth(services: Services): MiddlewareHandler<AppEnv> {
       throw err('UNAUTHORIZED', 'Missing API key. Pass it in the `apikey` or `Authorization: Bearer` header.');
     }
 
-    const role = keyRole(raw);
-    if (!role) throw err('UNAUTHORIZED', 'Malformed API key prefix.');
+    const secretKey = services.config.STRATUM_SECRET_KEY ?? services.config.BASEFORGE_SECRET_KEY;
+    const publicKey = services.config.STRATUM_PUBLIC_KEY ?? services.config.BASEFORGE_PUBLIC_KEY;
+
+    if (secretKey && raw === secretKey) {
+      c.set('keyRole', 'secret');
+      c.set('keyId', 'master-secret');
+      return await next();
+    }
+
+    if (publicKey && raw === publicKey) {
+      c.set('keyRole', 'public');
+      c.set('keyId', 'master-public');
+      return await next();
+    }
 
     const res = await services.db.query<{ id: string; role: string }>(
       `select id, role from stratum.api_keys where key_hash = $1 and revoked_at is null`,
@@ -26,11 +38,6 @@ export function apiKeyAuth(services: Services): MiddlewareHandler<AppEnv> {
 
     c.set('keyRole', row.role as KeyRole);
     c.set('keyId', row.id);
-
-    // Update last_used_at asynchronously — never block the request on metadata updates.
-    services.db
-      .query(`update stratum.api_keys set last_used_at = now() where id = $1`, [row.id])
-      .catch(() => {});
 
     await next();
   };

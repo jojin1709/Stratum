@@ -56,5 +56,24 @@ export function logRoutes(services: Services) {
     });
   });
 
+  router.get('/summary', async (c) => {
+    const [requests, errors, p95] = await Promise.all([
+      db.query<{ count: number }>(`select count(*)::int as count from stratum.request_logs where at > now() - interval '24 hours'`).catch(() => ({ rows: [{ count: 0 }] })),
+      db.query<{ count: number }>(`select count(*)::int as count from stratum.request_logs where status >= 500 and at > now() - interval '24 hours'`).catch(() => ({ rows: [{ count: 0 }] })),
+      db.query<{ p95: number }>(
+        `select coalesce(percentile_cont(0.95) within group (order by duration_ms), 0)::float as p95
+           from stratum.request_logs where at > now() - interval '24 hours'`,
+      ).catch(() => ({ rows: [{ p95: 0 }] })),
+    ]);
+
+    return c.json({
+      last24Hours: {
+        totalRequests: requests.rows[0]?.count ?? 0,
+        errors: errors.rows[0]?.count ?? 0,
+        p95DurationMs: Math.round((p95.rows[0]?.p95 ?? 0) * 10) / 10,
+      },
+    });
+  });
+
   return router;
 }

@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
       provider: 'github',
     };
 
-    const res = NextResponse.redirect(new URL('/', origin));
+    const res = NextResponse.redirect(new URL('/console', origin));
     res.cookies.set('stratum_session', JSON.stringify(profile), {
       path: '/',
       httpOnly: false,

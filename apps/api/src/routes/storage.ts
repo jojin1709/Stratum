@@ -17,27 +17,42 @@ export function storageRoutes(services: Services) {
     return assertObjectKey(decodeURIComponent(path.slice(idx + marker.length)));
   };
 
-  app.get('/buckets', async (c) => {
-    const names = await storage.listBuckets();
+  const listBucketsHandler = async (c: any) => {
+    let names: string[] = [];
+    try {
+      names = await storage.listBuckets();
+    } catch {
+      names = [];
+    }
     const meta = await db.query<{ name: string; is_public: boolean; created_at: string }>(
       `select name, is_public, created_at from stratum.buckets`,
-    );
+    ).catch(() => ({ rows: [] }));
     const byName = new Map(meta.rows.map((r) => [r.name, r]));
 
+    const allNames = Array.from(new Set([...names, ...meta.rows.map((r) => r.name)]));
+
     const data = await Promise.all(
-      names.map(async (name) => {
-        const objects = await storage.list(name, '', 1000).catch(() => []);
+      allNames.map(async (name) => {
+        let objects: any[] = [];
+        try {
+          objects = (await storage.list(name, '', 1000)) || [];
+        } catch {
+          objects = [];
+        }
         return {
           name,
           public: byName.get(name)?.is_public ?? false,
           createdAt: byName.get(name)?.created_at ?? null,
           fileCount: objects.length,
-          sizeBytes: objects.reduce((sum, o) => sum + o.size, 0),
+          sizeBytes: objects.reduce((sum: number, o: any) => sum + (o?.size || 0), 0),
         };
       }),
     );
     return c.json({ data, driver: storage.driver });
-  });
+  };
+
+  app.get('/buckets', listBucketsHandler);
+  app.get('/buckets/', listBucketsHandler);
 
   app.post('/buckets', requireSecretKey(), async (c) => {
     const payload = (await c.req.json().catch(() => ({}))) as { name?: unknown; public?: unknown };

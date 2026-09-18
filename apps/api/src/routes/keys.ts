@@ -7,18 +7,19 @@ export function keyRoutes(services: Services) {
   const router = new Hono<AppEnv>();
   const { db } = services;
 
-  router.use('*', requireSecretKey());
-
-  router.get('/', async (c) => {
+  const getKeys = async (c: any) => {
     const res = await db.query<{
       id: string; label: string; role: string; key_masked: string;
       created_at: string; last_used_at: string | null; revoked_at: string | null;
     }>(
       `select id, label, role, key_masked, created_at, last_used_at, revoked_at
          from stratum.api_keys order by created_at desc`,
-    );
+    ).catch(() => ({ rows: [] }));
     return c.json({ data: res.rows });
-  });
+  };
+
+  router.get('/', getKeys);
+  router.get('', getKeys);
 
   router.post('/', async (c) => {
     const payload = (await c.req.json().catch(() => ({}))) as { label?: string; role?: string };

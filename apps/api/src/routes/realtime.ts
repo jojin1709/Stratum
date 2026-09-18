@@ -15,7 +15,7 @@ export function realtimeRoutes(services: Services) {
       endpoint: '/realtime/v1',
       connections: stats.connections,
       channels: stats.channels,
-      tables: await listRealtimeTables(db),
+      tables: await listRealtimeTables(db).catch(() => []),
     });
   });
 
