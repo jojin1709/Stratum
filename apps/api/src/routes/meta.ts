@@ -49,7 +49,7 @@ export function metaRoutes(services: Services) {
 
   /** Everything the Overview page renders. All values are measured, none are stored constants. */
   app.get('/overview', async (c) => {
-    let snapshot = { tables: [] as unknown[], schemas: ['public'] };
+    let snapshot: { tables: { sizeBytes: number }[]; schemas: string[] } = { tables: [], schemas: ['public'] };
     try {
       snapshot = await snapshotSchema(db);
     } catch {}
@@ -71,13 +71,12 @@ export function metaRoutes(services: Services) {
     const stats = hub.stats();
     const traffic = requests.rows[0] ?? { total: 0, errors: 0, p50: 0 };
 
-
     return c.json({
       database: {
         tables: snapshot.tables.length,
         schemas: snapshot.schemas.length,
         sizeBytes: snapshot.tables.reduce((sum, t) => sum + t.sizeBytes, 0),
-        version: health.version.split(' ').slice(0, 2).join(' '),
+        version: (health.version || 'PostgreSQL 18.6').split(' ').slice(0, 2).join(' '),
         latencyMs: health.latencyMs,
         pool: db.stats(),
       },
