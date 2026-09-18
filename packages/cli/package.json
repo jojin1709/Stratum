@@ -1,7 +1,26 @@
 {
   "name": "@stratum/cli",
   "version": "0.1.0",
-  "description": "Command line interface for Stratum. Developed by Jojin John.",
+  "description": "Developer Command Line Interface for Stratum Backend-as-a-Service.",
+  "author": "Jojin John <jojinjohn1709@gmail.com> (https://www.linkedin.com/in/jojin-john/)",
+  "homepage": "https://stratum-sh.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jojin1709/Stratum.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/jojin1709/Stratum/issues"
+  },
+  "keywords": [
+    "stratum",
+    "cli",
+    "baas",
+    "postgresql",
+    "database-migrations",
+    "edge-functions",
+    "type-generator"
+  ],
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "bin": {
@@ -10,16 +29,23 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
-    "@stratum/shared": "workspace:*",
     "@stratum/database": "workspace:*",
     "@stratum/functions": "workspace:*",
+    "@stratum/shared": "workspace:*",
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
     "picocolors": "^1.1.1"

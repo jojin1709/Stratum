@@ -1,13 +1,51 @@
 {
   "name": "@stratum/client",
   "version": "0.1.0",
-  "description": "Official TypeScript client for Stratum.",
+  "description": "Official TypeScript & JavaScript client SDK for Stratum Backend-as-a-Service.",
+  "author": "Jojin John <jojinjohn1709@gmail.com> (https://www.linkedin.com/in/jojin-john/)",
+  "homepage": "https://stratum-sh.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jojin1709/Stratum.git",
+    "directory": "packages/client"
+  },
+  "bugs": {
+    "url": "https://github.com/jojin1709/Stratum/issues"
+  },
+  "keywords": [
+    "stratum",
+    "baas",
+    "postgresql",
+    "supabase",
+    "database",
+    "realtime",
+    "cdc",
+    "storage",
+    "cloudflare-workers",
+    "hyperdrive",
+    "edge",
+    "typescript"
+  ],
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
