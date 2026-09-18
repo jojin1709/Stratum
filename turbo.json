@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "DATABASE_URL",
+    "STRATUM_PUBLIC_KEY",
+    "STRATUM_SECRET_KEY",
+    "BASEFORGE_PUBLIC_KEY",
+    "BASEFORGE_SECRET_KEY",
+    "STORAGE_DRIVER",
+    "STORAGE_PATH",
+    "R2_ENDPOINT",
+    "R2_BUCKET",
+    "R2_ACCESS_KEY_ID",
+    "R2_SECRET_ACCESS_KEY",
+    "NEXT_PUBLIC_STRATUM_URL",
+    "NEXT_PUBLIC_BASEFORGE_URL"
+  ],
+  "tasks": {
+    "build": { "dependsOn": ["^build"], "outputs": ["dist/**", ".next/**", "!.next/cache/**"] },
+    "dev": { "cache": false, "persistent": true },
+    "lint": { "dependsOn": ["^build"] },
+    "typecheck": { "dependsOn": ["^build"] },
+    "test": { "dependsOn": ["^build"] }
+  }
+}

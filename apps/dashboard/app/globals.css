@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --sunken: #f7f8fa;
+  --line: #e4e7ec;
+  --line-strong: #cfd4dc;
+  --ink: #111827;
+  --ink-soft: #4b5563;
+  --ink-faint: #8a94a6;
+  --accent: #1e5eff;
+  --accent-soft: #eef3ff;
+  --positive: #0b7a4b;
+  --caution: #9a6400;
+  --critical: #b4341f;
+}
+
+.dark {
+  --canvas: #0e1117;
+  --surface: #141920;
+  --sunken: #1a2029;
+  --line: #242b35;
+  --line-strong: #333c49;
+  --ink: #e8ecf1;
+  --ink-soft: #a5aebb;
+  --ink-faint: #6b7686;
+  --accent: #5b8cff;
+  --accent-soft: #16233f;
+  --positive: #3fbb85;
+  --caution: #d7a13a;
+  --critical: #e2705c;
+}
+
+html, body { height: 100%; }
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv05' 1, 'ss01' 1;
+}
+
+/* Tabular numerals keep row counts and durations from jittering as data updates. */
+.nums { font-variant-numeric: tabular-nums; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-radius: 3px;
+}
+
+::selection { background: var(--accent-soft); }
+
+/* Scrollbars in a dense console should read as part of the table, not the OS. */
+.thin-scroll::-webkit-scrollbar { height: 10px; width: 10px; }
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border: 3px solid var(--canvas);
+  border-radius: 6px;
+}
+.thin-scroll::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

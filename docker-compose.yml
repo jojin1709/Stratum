@@ -1,0 +1,69 @@
+# Stratum — full local stack. Developed by Jojin John.
+#   docker compose up -d          start everything
+#   docker compose up -d postgres only the database (useful with `pnpm dev` for the apps)
+#   docker compose logs -f api
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: stratum
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-stratum}
+      POSTGRES_DB: stratum
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stratum -d stratum"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://stratum:${POSTGRES_PASSWORD:-stratum}@postgres:5432/stratum
+      STRATUM_API_PORT: 8788
+      STRATUM_PUBLIC_KEY: ${STRATUM_PUBLIC_KEY:-${BASEFORGE_PUBLIC_KEY:-}}
+      STRATUM_SECRET_KEY: ${STRATUM_SECRET_KEY:-${BASEFORGE_SECRET_KEY:-}}
+      STORAGE_DRIVER: ${STORAGE_DRIVER:-local}
+      STORAGE_PATH: /data/storage
+      R2_ENDPOINT: ${R2_ENDPOINT:-}
+      R2_BUCKET: ${R2_BUCKET:-}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID:-}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY:-}
+      CORS_ORIGINS: http://localhost:8787
+      FUNCTIONS_DIR: /data/functions
+      MIGRATIONS_DIR: /data/migrations
+      LOG_LEVEL: info
+    ports:
+      - "8788:8788"
+    volumes:
+      - ./functions:/data/functions
+      - ./migrations:/data/migrations
+      - storage-data:/data/storage
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      STRATUM_API_URL: http://api:8788
+      STRATUM_SECRET_KEY: ${STRATUM_SECRET_KEY:-${BASEFORGE_SECRET_KEY:-}}
+      NEXT_PUBLIC_STRATUM_URL: http://localhost:8788
+    ports:
+      - "8787:8787"
+
+volumes:
+  pgdata:
+  storage-data:

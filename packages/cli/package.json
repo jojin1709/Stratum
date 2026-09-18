@@ -1,0 +1,27 @@
+{
+  "name": "@stratum/cli",
+  "version": "0.1.0",
+  "description": "Command line interface for Stratum. Developed by Jojin John.",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "bin": {
+    "stratum": "./dist/index.js",
+    "baseforge": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@stratum/shared": "workspace:*",
+    "@stratum/database": "workspace:*",
+    "@stratum/functions": "workspace:*",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "picocolors": "^1.1.1"
+  }
+}
