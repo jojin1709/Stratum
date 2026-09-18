@@ -187,6 +187,8 @@ ORDER BY table_name, ordinal_position;`;
           { href: '/database/sql', label: 'SQL editor' },
           { href: '/database/migrations', label: 'Migrations' },
           { href: '/database/webhooks', label: 'Webhooks' },
+          { href: '/database/policies', label: 'RLS Policies' },
+          { href: '/database/analytics', label: 'Analytics' },
         ]}
       />
 
