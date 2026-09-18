@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import {
   Boxes, Database, Gauge, KeyRound, Moon, Radio, Settings, Sun, Terminal, Zap,
-  Github, Shield, ArrowRight, ArrowLeft, Users
+  Github, Shield, ArrowRight, ArrowLeft, Users, BookOpen, ScrollText
 } from 'lucide-react';
 import { useApi } from '@/lib/api';
 import { StatusDot, Spinner } from './primitives';
@@ -15,10 +15,12 @@ const NAV = [
   { href: '/console', label: 'Overview', icon: Gauge },
   { href: '/database', label: 'Database', icon: Database },
   { href: '/auth', label: 'Auth & Users', icon: Users },
-  { href: '/api', label: 'API', icon: KeyRound },
+  { href: '/api', label: 'API & Keys', icon: KeyRound },
+  { href: '/docs', label: 'API Docs', icon: BookOpen },
   { href: '/storage', label: 'Storage', icon: Boxes },
   { href: '/realtime', label: 'Realtime', icon: Radio },
   { href: '/functions', label: 'Functions', icon: Zap },
+  { href: '/logs', label: 'Audit Logs', icon: ScrollText },
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 

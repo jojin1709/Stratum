@@ -770,15 +770,24 @@ const subscription = stratum
           <p className="text-[11px]">
             © 2026 Stratum. All Rights Reserved. Proprietary software developed by Jojin John (@jojin1709).
           </p>
-          <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex flex-wrap items-center gap-4 text-[11px]">
+            <Link href="/docs" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
+              Docs
+            </Link>
+            <Link href="/privacy" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
+              Terms
+            </Link>
+            <Link href="/security" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
+              Security
+            </Link>
             <a href="https://github.com/jojin1709/Stratum" target="_blank" rel="noreferrer" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
               GitHub
             </a>
-            <a href="/bf/api/v1/openapi.json" target="_blank" rel="noreferrer" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
-              OpenAPI
-            </a>
-            <Link href="/login" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
-              Console Sign In
+            <Link href="/login" className="hover:text-slate-800 dark:hover:text-slate-200 transition-colors font-semibold text-blue-600 dark:text-blue-400">
+              Console
             </Link>
           </div>
         </div>
