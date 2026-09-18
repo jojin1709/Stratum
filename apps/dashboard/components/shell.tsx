@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApi } from '@/lib/api';
 import { StatusDot } from './primitives';
+import { AuthNav } from './auth-nav';
 
 const NAV = [
   { href: '/', label: 'Overview', icon: Gauge },
@@ -73,6 +74,23 @@ function ProjectStatus() {
   );
 }
 
+function HostIndicator() {
+  const [host, setHost] = useState('stratum-sh.vercel.app');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setHost(window.location.host);
+    }
+  }, []);
+
+  return (
+    <div className="hidden items-center gap-2 md:flex">
+      <Terminal className="h-3.5 w-3.5 text-ink-faint" aria-hidden />
+      <code className="text-xs text-ink-soft">{host}</code>
+    </div>
+  );
+}
+
 export function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
@@ -116,21 +134,21 @@ export function Shell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3 md:hidden">
             <span className="text-[13px] font-semibold">Stratum</span>
           </div>
-          <div className="hidden items-center gap-2 md:flex">
-            <Terminal className="h-3.5 w-3.5 text-ink-faint" aria-hidden />
-            <code className="text-xs text-ink-soft">localhost:8787</code>
-          </div>
-          <div className="flex items-center gap-4">
+          <HostIndicator />
+
+          <div className="flex items-center gap-3">
             <ProjectStatus />
             <a
               href="/bf/api/v1/openapi.json"
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-ink-soft hover:text-accent"
+              className="text-xs text-ink-soft hover:text-accent hidden sm:inline-block"
             >
               OpenAPI
             </a>
             <ThemeToggle />
+            <div className="h-4 w-px bg-line" />
+            <AuthNav />
           </div>
         </header>
 
