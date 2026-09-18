@@ -3,13 +3,22 @@ import './globals.css';
 import { Shell } from '@/components/shell';
 
 export const metadata: Metadata = {
-  title: 'Stratum Console — Developed by Jojin John',
+  title: 'Stratum — Developed by Jojin John',
   description: 'High-performance Backend-as-a-Service developed by Jojin John.',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/icon.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+      </head>
       <body>
         <a
           href="#main"

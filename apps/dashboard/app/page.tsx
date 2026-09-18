@@ -101,8 +101,8 @@ const subscription = stratum
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1e5eff] text-white font-bold text-sm shadow-md transition-transform group-hover:scale-105">
-                S
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900/5 p-1 border border-line shadow-2xs group-hover:scale-105 transition-transform dark:bg-slate-800">
+                <img src="/logo.png" alt="Stratum Logo" className="h-full w-full object-contain" />
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-base font-bold tracking-tight text-ink">Stratum</span>
