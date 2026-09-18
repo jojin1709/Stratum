@@ -5,33 +5,33 @@
 :root {
   --canvas: #ffffff;
   --surface: #ffffff;
-  --sunken: #f7f8fa;
-  --line: #e4e7ec;
-  --line-strong: #cfd4dc;
-  --ink: #111827;
-  --ink-soft: #4b5563;
-  --ink-faint: #8a94a6;
-  --accent: #1e5eff;
-  --accent-soft: #eef3ff;
-  --positive: #0b7a4b;
-  --caution: #9a6400;
-  --critical: #b4341f;
+  --sunken: #f8fafc;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --ink: #0f172a;
+  --ink-soft: #475569;
+  --ink-faint: #94a3b8;
+  --accent: #2563eb;
+  --accent-soft: #eff6ff;
+  --positive: #059669;
+  --caution: #d97706;
+  --critical: #dc2626;
 }
 
 .dark {
-  --canvas: #0e1117;
-  --surface: #141920;
-  --sunken: #1a2029;
-  --line: #242b35;
-  --line-strong: #333c49;
-  --ink: #e8ecf1;
-  --ink-soft: #a5aebb;
-  --ink-faint: #6b7686;
-  --accent: #5b8cff;
-  --accent-soft: #16233f;
-  --positive: #3fbb85;
-  --caution: #d7a13a;
-  --critical: #e2705c;
+  --canvas: #0b0f17;
+  --surface: #111827;
+  --sunken: #172033;
+  --line: #1e293b;
+  --line-strong: #334155;
+  --ink: #f8fafc;
+  --ink-soft: #94a3b8;
+  --ink-faint: #64748b;
+  --accent: #3b82f6;
+  --accent-soft: #1e293b;
+  --positive: #10b981;
+  --caution: #f59e0b;
+  --critical: #ef4444;
 }
 
 html, body { height: 100%; }
@@ -43,25 +43,104 @@ body {
   font-feature-settings: 'cv05' 1, 'ss01' 1;
 }
 
-/* Tabular numerals keep row counts and durations from jittering as data updates. */
+/* Engineering grid background */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(226, 232, 240, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 232, 240, 0.45) 1px, transparent 1px);
+}
+
+.dark .bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(30, 41, 59, 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 41, 59, 0.5) 1px, transparent 1px);
+}
+
 .nums { font-variant-numeric: tabular-nums; }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::selection { background: var(--accent-soft); }
 
-/* Scrollbars in a dense console should read as part of the table, not the OS. */
-.thin-scroll::-webkit-scrollbar { height: 10px; width: 10px; }
+.thin-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
 .thin-scroll::-webkit-scrollbar-thumb {
   background: var(--line-strong);
-  border: 3px solid var(--canvas);
-  border-radius: 6px;
+  border: 2px solid var(--canvas);
+  border-radius: 4px;
 }
 .thin-scroll::-webkit-scrollbar-track { background: transparent; }
+
+/* Custom Animations */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.2deg);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(12px) rotate(-1.2deg);
+  }
+}
+
+@keyframes floatFast {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes waveDash {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 7s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: floatFast 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 5s ease-in-out infinite;
+}
+
+.animate-wave-line {
+  stroke-dasharray: 8, 8;
+  animation: waveDash 20s linear infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

@@ -10,15 +10,14 @@ import {
 } from '@stratum/shared';
 import type { DatabaseAdapter } from './adapter.js';
 
-const EXCLUDED = [...SYSTEM_SCHEMAS];
+const SYSTEM_SCHEMA_SQL = `'information_schema', 'pg_catalog', 'pg_toast', 'stratum', 'baseforge'`;
 
 export async function listSchemas(db: DatabaseAdapter): Promise<string[]> {
   const res = await db.query<{ nspname: string }>(
     `select nspname from pg_namespace
-      where nspname not in (select unnest($1::text[]))
+      where nspname not in (${SYSTEM_SCHEMA_SQL})
         and nspname not like 'pg\\_%'
       order by nspname`,
-    [EXCLUDED],
   );
   return res.rows.map((r) => r.nspname);
 }
@@ -42,11 +41,11 @@ export async function listTables(db: DatabaseAdapter, schema?: string): Promise<
        from pg_class c
        join pg_namespace n on n.oid = c.relnamespace
       where c.relkind in ('r','v','m')
-        and n.nspname not in (select unnest($1::text[]))
+        and n.nspname not in (${SYSTEM_SCHEMA_SQL})
         and n.nspname not like 'pg\\_%'
-        and ($2::text is null or n.nspname = $2)
+        and ($1::text is null or n.nspname = $1)
       order by n.nspname, c.relname`,
-    [EXCLUDED, schema ?? null],
+    [schema ?? null],
   );
 
   const tables = res.rows;
@@ -110,11 +109,11 @@ export async function listColumns(db: DatabaseAdapter, schema?: string): Promise
                and c.ordinal_position = any(i.indkey::int[])
              limit 1
        ) uq on true
-      where c.table_schema not in (select unnest($1::text[]))
+      where c.table_schema not in (${SYSTEM_SCHEMA_SQL})
         and c.table_schema not like 'pg\\_%'
-        and ($2::text is null or c.table_schema = $2)
+        and ($1::text is null or c.table_schema = $1)
       order by c.table_schema, c.table_name, c.ordinal_position`,
-    [EXCLUDED, schema ?? null],
+    [schema ?? null],
   );
 
   return res.rows.map((r) => ({
@@ -154,10 +153,10 @@ export async function listForeignKeys(db: DatabaseAdapter, schema?: string): Pro
        join pg_class frel     on frel.oid = con.confrelid
        join pg_namespace fnsp on fnsp.oid = frel.relnamespace
       where con.contype = 'f'
-        and nsp.nspname not in (select unnest($1::text[]))
-        and ($2::text is null or nsp.nspname = $2)
+        and nsp.nspname not in (${SYSTEM_SCHEMA_SQL})
+        and ($1::text is null or nsp.nspname = $1)
       order by nsp.nspname, rel.relname, con.conname`,
-    [EXCLUDED, schema ?? null],
+    [schema ?? null],
   );
 
   const action = (c: unknown): string =>
@@ -188,11 +187,11 @@ export async function listIndexes(db: DatabaseAdapter, schema?: string): Promise
        join pg_class i     on i.oid = ix.indexrelid
        join pg_class t     on t.oid = ix.indrelid
        join pg_namespace n on n.oid = t.relnamespace
-      where n.nspname not in (select unnest($1::text[]))
+      where n.nspname not in (${SYSTEM_SCHEMA_SQL})
         and n.nspname not like 'pg\\_%'
-        and ($2::text is null or n.nspname = $2)
+        and ($1::text is null or n.nspname = $1)
       order by n.nspname, t.relname, i.relname`,
-    [EXCLUDED, schema ?? null],
+    [schema ?? null],
   );
 
   return res.rows.map((r) => ({

@@ -20,21 +20,27 @@ interface WorkerEnv {
 
 async function getApp(env: WorkerEnv) {
   if (!appInstance) {
-    if (!servicesPromise) {
-      const dbUrl = env.HYPERDRIVE?.connectionString || env.DATABASE_URL || (typeof process !== 'undefined' ? process.env.DATABASE_URL : undefined);
-      servicesPromise = createServices({
-        DATABASE_URL: dbUrl,
-        STRATUM_PUBLIC_KEY: (env.STRATUM_PUBLIC_KEY as string) || (typeof process !== 'undefined' ? process.env.STRATUM_PUBLIC_KEY : undefined),
-        STRATUM_SECRET_KEY: (env.STRATUM_SECRET_KEY as string) || (typeof process !== 'undefined' ? process.env.STRATUM_SECRET_KEY : undefined),
-        CORS_ORIGINS: (env.CORS_ORIGINS as string) || 'https://stratum-sh.vercel.app,http://localhost:8787,*',
-        R2_BUCKET: env.R2_BUCKET as string | undefined,
-        R2_ENDPOINT: env.R2_ENDPOINT as string | undefined,
-        R2_ACCESS_KEY_ID: env.R2_ACCESS_KEY_ID as string | undefined,
-        R2_SECRET_ACCESS_KEY: env.R2_SECRET_ACCESS_KEY as string | undefined,
-      });
+    try {
+      if (!servicesPromise) {
+        const dbUrl = env.HYPERDRIVE?.connectionString || env.DATABASE_URL || (typeof process !== 'undefined' ? process.env.DATABASE_URL : undefined);
+        servicesPromise = createServices({
+          DATABASE_URL: dbUrl,
+          STRATUM_PUBLIC_KEY: (env.STRATUM_PUBLIC_KEY as string) || (typeof process !== 'undefined' ? process.env.STRATUM_PUBLIC_KEY : undefined),
+          STRATUM_SECRET_KEY: (env.STRATUM_SECRET_KEY as string) || (typeof process !== 'undefined' ? process.env.STRATUM_SECRET_KEY : undefined),
+          CORS_ORIGINS: (env.CORS_ORIGINS as string) || 'https://stratum-sh.vercel.app,http://localhost:8787,*',
+          R2_BUCKET: env.R2_BUCKET as string | undefined,
+          R2_ENDPOINT: env.R2_ENDPOINT as string | undefined,
+          R2_ACCESS_KEY_ID: env.R2_ACCESS_KEY_ID as string | undefined,
+          R2_SECRET_ACCESS_KEY: env.R2_SECRET_ACCESS_KEY as string | undefined,
+        });
+      }
+      const services = await servicesPromise;
+      appInstance = createApp(services);
+    } catch (e) {
+      servicesPromise = null;
+      appInstance = null;
+      throw e;
     }
-    const services = await servicesPromise;
-    appInstance = createApp(services);
   }
   return appInstance;
 }
