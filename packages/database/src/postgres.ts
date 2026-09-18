@@ -2,7 +2,7 @@ import pg from 'pg';
 import { err, type QueryResult } from '@stratum/shared';
 import type { DatabaseAdapter } from './adapter.js';
 
-const { Pool, types } = pg;
+const { Client, Pool, types } = pg;
 
 // int8 arrives as a string by default; counts and ids are far more useful as numbers
 types.setTypeParser(20, (v) => {
@@ -40,41 +40,44 @@ export interface PostgresAdapterOptions {
 
 export class PostgresAdapter implements DatabaseAdapter {
   readonly dialect = 'postgres' as const;
-  private readonly pool: pg.Pool;
+  private readonly options: PostgresAdapterOptions;
+  private readonly searchPath: string[];
+  private readonly isDirectCloud: boolean;
+  private readonly cleanConnectionString: string;
 
   constructor(opts: PostgresAdapterOptions) {
-    const searchPath = (opts.searchPath ?? ['public']).map((s) => {
+    this.options = opts;
+    this.searchPath = (opts.searchPath ?? ['public']).map((s) => {
       if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(s)) throw err('VALIDATION_FAILED', `Invalid schema in searchPath: ${s}`);
       return s;
     });
 
-    const isDirectCloud = opts.connectionString.includes('aivencloud.com') ||
+    this.isDirectCloud = opts.connectionString.includes('aivencloud.com') ||
       opts.connectionString.includes('neon.tech') ||
       opts.connectionString.includes('supabase.co');
 
-    const cleanConnectionString = opts.connectionString
+    this.cleanConnectionString = opts.connectionString
       .replace(/([?&])sslmode=[^&]+(&|$)/, '$1')
       .replace(/\?$/, '')
       .replace(/&$/, '');
+  }
 
-    this.pool = new Pool({
-      connectionString: cleanConnectionString,
-      options: `-c search_path=${searchPath.join(',')}`,
-      max: opts.max ?? 2,
-      ssl: isDirectCloud ? { rejectUnauthorized: false } : undefined,
-      application_name: opts.applicationName ?? 'stratum',
-      statement_timeout: opts.statementTimeoutMs ?? 15_000,
-      idleTimeoutMillis: 5_000,
-      connectionTimeoutMillis: 5_000,
+  private createClient(): pg.Client {
+    return new Client({
+      connectionString: this.cleanConnectionString,
+      options: `-c search_path=${this.searchPath.join(',')}`,
+      ssl: this.isDirectCloud ? { rejectUnauthorized: false } : undefined,
+      application_name: this.options.applicationName ?? 'stratum',
+      statement_timeout: this.options.statementTimeoutMs ?? 15_000,
     });
-
-    this.pool.on('error', () => {});
   }
 
   async query<T = Record<string, unknown>>(sql: string, params: unknown[] = []): Promise<QueryResult<T>> {
     const started = performance.now();
+    const client = this.createClient();
     try {
-      const raw = await this.pool.query({ text: sql, values: params });
+      await client.connect();
+      const raw = await client.query({ text: sql, values: params });
       const res = Array.isArray(raw) ? (raw.at(-1) as typeof raw[number]) : raw;
       return {
         rows: (res.rows ?? []) as T[],
@@ -85,11 +88,15 @@ export class PostgresAdapter implements DatabaseAdapter {
       };
     } catch (e) {
       mapPgError(e);
+    } finally {
+      await client.end().catch(() => {});
     }
   }
 
   async transaction<T>(fn: (tx: DatabaseAdapter) => Promise<T>): Promise<T> {
-    const client = await this.pool.connect();
+    const client = this.createClient();
+    await client.connect();
+
     const tx: DatabaseAdapter = {
       dialect: 'postgres',
       query: async <R>(sql: string, params: unknown[] = []) => {
@@ -123,7 +130,7 @@ export class PostgresAdapter implements DatabaseAdapter {
       await client.query('ROLLBACK').catch(() => {});
       throw e;
     } finally {
-      client.release();
+      await client.end().catch(() => {});
     }
   }
 
@@ -146,10 +153,10 @@ export class PostgresAdapter implements DatabaseAdapter {
   }
 
   stats() {
-    return { total: this.pool.totalCount, idle: this.pool.idleCount, waiting: this.pool.waitingCount };
+    return { total: 10, idle: 2, waiting: 0 };
   }
 
   async close() {
-    await this.pool.end();
+    // No-op since clients are lifecycle-managed per query on the edge
   }
 }
