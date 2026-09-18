@@ -1,5 +1,5 @@
 {
-  "name": "@stratum/client",
+  "name": "@jojin1709/stratum",
   "version": "0.1.0",
   "description": "Official TypeScript & JavaScript client SDK for Stratum Backend-as-a-Service.",
   "author": "Jojin John <jojinjohn1709@gmail.com> (https://www.linkedin.com/in/jojin-john/)",

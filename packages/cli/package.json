@@ -1,5 +1,5 @@
 {
-  "name": "@stratum/cli",
+  "name": "@jojin1709/stratum-cli",
   "version": "0.1.0",
   "description": "Developer Command Line Interface for Stratum Backend-as-a-Service.",
   "author": "Jojin John <jojinjohn1709@gmail.com> (https://www.linkedin.com/in/jojin-john/)",
