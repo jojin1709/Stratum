@@ -8,16 +8,16 @@ export async function GET(req: NextRequest) {
   const redirectUri = `${origin}/api/auth/callback/github`;
 
   if (!clientId) {
-    // If no custom OAuth App ID is provided yet, default to quick sign-in with jojin1709 profile
+    // If no custom OAuth App ID is provided, sign-in with jojin1709 profile
     const profile = {
       login: 'jojin1709',
       name: 'Jojin John',
-      avatar_url: 'https://avatars.githubusercontent.com/u/102925763?v=4',
+      avatar_url: 'https://avatars.githubusercontent.com/u/197761551?v=4',
       html_url: 'https://github.com/jojin1709',
       email: 'jojinn1709@gmail.com',
       provider: 'github',
     };
-    const res = NextResponse.redirect(new URL('/', origin));
+    const res = NextResponse.redirect(new URL('/console', origin));
     res.cookies.set('stratum_session', JSON.stringify(profile), {
       path: '/',
       httpOnly: false,

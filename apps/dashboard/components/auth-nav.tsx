@@ -72,11 +72,11 @@ export function AuthNav() {
         aria-expanded={menuOpen}
       >
         <img
-          src={user.avatar_url || 'https://avatars.githubusercontent.com/u/102925763?v=4'}
+          src={user.avatar_url || 'https://avatars.githubusercontent.com/u/197761551?v=4'}
           alt={user.login}
           className="h-5 w-5 rounded-full border border-line object-cover"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://avatars.githubusercontent.com/u/102925763?v=4';
+            (e.target as HTMLImageElement).src = 'https://avatars.githubusercontent.com/u/197761551?v=4';
           }}
         />
         <span className="hidden sm:inline-block max-w-[100px] truncate text-ink-soft hover:text-ink font-mono text-[11px]">

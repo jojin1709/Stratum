@@ -35,7 +35,7 @@ export default function LandingPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const codeSnippets = {
+  const codeSnippetsRaw = {
     ts: `import { createClient } from '@stratum/sdk';
 
 // Initialize with your Stratum edge endpoint
@@ -141,9 +141,9 @@ const subscription = stratum
                 </Link>
                 <Link href="/console" className="flex items-center gap-2">
                   <img
-                    src={user.avatar_url}
+                    src={user.avatar_url || 'https://avatars.githubusercontent.com/u/197761551?v=4'}
                     alt={user.login}
-                    className="h-8 w-8 rounded-full border border-line shadow-xs"
+                    className="h-8 w-8 rounded-full border border-line shadow-xs object-cover"
                   />
                 </Link>
               </div>
@@ -194,7 +194,6 @@ const subscription = stratum
 
         {/* LEFT FLOATING 3D GLASS ELEMENTS */}
         <div className="hidden xl:block pointer-events-none absolute left-6 2xl:left-16 top-24 z-10">
-          {/* Floating 3D Postgres Box */}
           <div className="relative animate-float-slow">
             <div className="w-48 rounded-2xl border border-white/60 bg-gradient-to-b from-white/90 to-blue-50/70 p-5 shadow-2xl backdrop-blur-lg dark:border-slate-700/60 dark:from-slate-800/90 dark:to-slate-900/80">
               <div className="flex items-center justify-between mb-3">
@@ -210,14 +209,12 @@ const subscription = stratum
               </div>
             </div>
 
-            {/* Floating Mini Lightning Badge */}
             <div className="absolute -top-10 right-2 animate-float-fast">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/80 bg-white/90 text-blue-600 shadow-xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-800 dark:text-blue-400">
                 <Zap className="h-5 w-5 fill-current" />
               </div>
             </div>
 
-            {/* Floating Mini Chart Card */}
             <div className="absolute -bottom-16 left-6 animate-float-reverse">
               <div className="flex items-center gap-2 rounded-xl border border-white/80 bg-white/95 px-3 py-2 text-xs font-semibold text-ink shadow-xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-800">
                 <BarChart3 className="h-4 w-4 text-emerald-500" />
@@ -230,7 +227,6 @@ const subscription = stratum
         {/* RIGHT FLOATING TRANSLUCENT CODE CARD & BADGES */}
         <div className="hidden xl:block pointer-events-none absolute right-6 2xl:right-16 top-20 z-10">
           <div className="relative animate-float-slow">
-            {/* Translucent Glass Code Card */}
             <div className="w-64 rounded-2xl border border-white/70 bg-gradient-to-b from-white/95 to-slate-50/80 p-5 shadow-2xl backdrop-blur-xl dark:border-slate-700/60 dark:from-slate-800/90 dark:to-slate-900/80">
               <div className="flex items-center gap-1.5 mb-3 border-b border-line pb-2">
                 <FileCode2 className="h-3.5 w-3.5 text-blue-500" />
@@ -246,14 +242,12 @@ const subscription = stratum
               </pre>
             </div>
 
-            {/* Floating Cloud Badge */}
             <div className="absolute -top-8 right-6 animate-float-fast">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/80 bg-white/90 text-blue-500 shadow-xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-800 dark:text-blue-400">
                 <Cloud className="h-5 w-5 fill-current" />
               </div>
             </div>
 
-            {/* Floating Code Badge */}
             <div className="absolute -bottom-14 -left-4 animate-float-reverse">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/80 bg-white/90 text-indigo-500 shadow-xl backdrop-blur-md dark:border-slate-700 dark:bg-slate-800 dark:text-indigo-400">
                 <Code2 className="h-5 w-5" />
@@ -264,13 +258,11 @@ const subscription = stratum
 
         {/* Center Main Hero Content */}
         <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center z-20">
-          {/* Next-Gen Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/80 px-3.5 py-1 text-xs font-semibold text-blue-600 shadow-xs mb-8 dark:border-blue-800 dark:bg-blue-950/60 dark:text-blue-400">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Next-Gen PostgreSQL Backend-as-a-Service</span>
           </div>
 
-          {/* Main Huge Headline */}
           <h1 className="text-4xl font-black tracking-tight sm:text-6xl text-[#0f172a] dark:text-white leading-[1.12]">
             Build Fast. Scale Infinitely.{' '}
             <span className="block mt-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 bg-clip-text text-transparent">
@@ -278,12 +270,10 @@ const subscription = stratum
             </span>
           </h1>
 
-          {/* Subtitle */}
           <p className="mt-6 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto">
             The modern developer platform combining instant <strong>PostgreSQL 18</strong>, auto-generated REST & OpenAPI 3.1, realtime CDC streams, S3 storage, and sub-50ms Cloudflare Hyperdrive edge compute.
           </p>
 
-          {/* Action Buttons */}
           <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3.5">
             {user ? (
               <Link
@@ -530,43 +520,110 @@ const subscription = stratum
               </div>
             </div>
 
+            {/* Code Box with Solid Background & Syntax Highlighting */}
             <div className="lg:col-span-7">
-              <div className="rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 dark:border-slate-800 dark:bg-slate-800/80">
-                  <div className="flex gap-2">
-                    {[
-                      { id: 'ts', label: 'TypeScript / Next.js' },
-                      { id: 'curl', label: 'cURL / REST' },
-                      { id: 'py', label: 'Python' },
-                      { id: 'realtime', label: 'Realtime CDC' },
-                    ].map((tab) => (
-                      <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id as any)}
-                        className={`px-3 py-2.5 text-xs font-medium border-b-2 transition-colors ${
-                          activeTab === tab.id
-                            ? 'border-blue-600 text-blue-600 font-semibold'
-                            : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-                        }`}
-                      >
-                        {tab.label}
-                      </button>
-                    ))}
+              <div className="rounded-2xl border border-slate-700/80 bg-[#0d1117] shadow-2xl overflow-hidden">
+                {/* Header bar */}
+                <div className="flex items-center justify-between border-b border-slate-800 bg-[#161b22] px-4 py-2.5">
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <div className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+                      <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+                      <div className="h-3 w-3 rounded-full bg-[#27c93f]" />
+                    </div>
+                    <div className="flex gap-1">
+                      {[
+                        { id: 'ts', label: 'TypeScript / Next.js' },
+                        { id: 'curl', label: 'cURL / REST' },
+                        { id: 'py', label: 'Python' },
+                        { id: 'realtime', label: 'Realtime CDC' },
+                      ].map((tab) => (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id as any)}
+                          className={`rounded-md px-2.5 py-1 text-xs font-mono transition-colors ${
+                            activeTab === tab.id
+                              ? 'bg-[#1f293d] text-blue-400 font-semibold border border-blue-500/30'
+                              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                          }`}
+                        >
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   <button
-                    onClick={() => copyCode(codeSnippets[activeTab])}
-                    className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800 transition-colors p-1 dark:hover:text-slate-200"
+                    onClick={() => copyCode(codeSnippetsRaw[activeTab])}
+                    className="flex items-center gap-1.5 rounded bg-slate-800/80 px-2.5 py-1 text-xs font-mono text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
                     title="Copy code"
                   >
-                    {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
                     <span>{copied ? 'Copied' : 'Copy'}</span>
                   </button>
                 </div>
 
-                <pre className="p-5 font-mono text-xs text-slate-600 leading-relaxed overflow-x-auto bg-slate-950 text-slate-200 dark:bg-black">
-                  <code>{codeSnippets[activeTab]}</code>
-                </pre>
+                {/* Solid Code Editor Display */}
+                <div className="p-5 font-mono text-xs leading-relaxed overflow-x-auto bg-[#0d1117] text-slate-200">
+                  {activeTab === 'ts' && (
+                    <pre>
+                      <span className="text-[#c678dd]">import</span> {'{'} <span className="text-[#e5c07b]">createClient</span> {'}'} <span className="text-[#c678dd]">from</span> <span className="text-[#98c379]">&apos;@stratum/sdk&apos;</span>;{'\n\n'}
+                      <span className="text-[#5c6370] italic">// Initialize with your Stratum edge endpoint</span>{'\n'}
+                      <span className="text-[#c678dd]">const</span> stratum = <span className="text-[#61afef]">createClient</span>({'{'}{'\n'}
+                      {'  '}url: <span className="text-[#98c379]">&apos;https://stratum-api.jojin1709.workers.dev&apos;</span>,{'\n'}
+                      {'  '}apiKey: process.env.STRATUM_PUBLIC_KEY,{'\n'}
+                      {'}'});{'\n\n'}
+                      <span className="text-[#5c6370] italic">// Query PostgreSQL with sub-50ms Hyperdrive latency</span>{'\n'}
+                      <span className="text-[#c678dd]">const</span> {'{'} data: users, error {'}'} = <span className="text-[#c678dd]">await</span> stratum{'\n'}
+                      {'  '}.<span className="text-[#61afef]">from</span>(<span className="text-[#98c379]">&apos;users&apos;</span>){'\n'}
+                      {'  '}.<span className="text-[#61afef]">select</span>(<span className="text-[#98c379]">&apos;id, name, email, created_at&apos;</span>){'\n'}
+                      {'  '}.<span className="text-[#61afef]">order</span>(<span className="text-[#98c379]">&apos;created_at&apos;</span>, {'{'} ascending: <span className="text-[#d19a66]">false</span> {'}'}){'\n'}
+                      {'  '}.<span className="text-[#61afef]">limit</span>(<span className="text-[#d19a66]">10</span>);{'\n\n'}
+                      console.<span className="text-[#61afef]">log</span>(<span className="text-[#98c379]">&apos;Fetched users:&apos;</span>, users);
+                    </pre>
+                  )}
+
+                  {activeTab === 'curl' && (
+                    <pre>
+                      <span className="text-[#5c6370] italic"># Instant auto-generated REST API with OpenAPI 3.1</span>{'\n'}
+                      curl -X GET <span className="text-[#98c379]">&quot;https://stratum-api.jojin1709.workers.dev/api/v1/meta/tables&quot;</span> \{'\n'}
+                      {'  '}-H <span className="text-[#98c379]">&quot;apikey: strat_secret_3VaZu6akUJyh52qOPs1HXldzE4aSlSvS&quot;</span> \{'\n'}
+                      {'  '}-H <span className="text-[#98c379]">&quot;Content-Type: application/json&quot;</span>{'\n\n'}
+                      <span className="text-[#5c6370] italic"># Response: 200 OK (~43ms)</span>{'\n'}
+                      <span className="text-[#5c6370] italic"># [{'{'}&quot;name&quot;:&quot;users&quot;,&quot;schema&quot;:&quot;public&quot;,&quot;columns&quot;:4,&quot;rowCount&quot;:120{'}'}]</span>
+                    </pre>
+                  )}
+
+                  {activeTab === 'py' && (
+                    <pre>
+                      <span className="text-[#c678dd]">from</span> stratum <span className="text-[#c678dd]">import</span> StratumClient{'\n\n'}
+                      <span className="text-[#5c6370] italic"># Connect to Stratum Edge Backend</span>{'\n'}
+                      client = <span className="text-[#61afef]">StratumClient</span>({'\n'}
+                      {'    '}api_url=<span className="text-[#98c379]">&quot;https://stratum-api.jojin1709.workers.dev&quot;</span>,{'\n'}
+                      {'    '}api_key=<span className="text-[#98c379]">&quot;strat_secret_3VaZu6akUJyh52qOPs1HXldzE4aSlSvS&quot;</span>{'\n'}
+                      ){'\n\n'}
+                      <span className="text-[#5c6370] italic"># Insert new record into PostgreSQL</span>{'\n'}
+                      record = client.<span className="text-[#61afef]">table</span>(<span className="text-[#98c379]">&quot;projects&quot;</span>).<span className="text-[#61afef]">insert</span>({'{'}{'\n'}
+                      {'    '}<span className="text-[#98c379]">&quot;name&quot;</span>: <span className="text-[#98c379]">&quot;AI Agent Orchestrator&quot;</span>,{'\n'}
+                      {'    '}<span className="text-[#98c379]">&quot;status&quot;</span>: <span className="text-[#98c379]">&quot;active&quot;</span>,{'\n'}
+                      {'    '}<span className="text-[#98c379]">&quot;author&quot;</span>: <span className="text-[#98c379]">&quot;Jojin John&quot;</span>{'\n'}
+                      {'}'}){'\n\n'}
+                      <span className="text-[#61afef]">print</span>(<span className="text-[#98c379]">&quot;Created project:&quot;</span>, record)
+                    </pre>
+                  )}
+
+                  {activeTab === 'realtime' && (
+                    <pre>
+                      <span className="text-[#5c6370] italic">// Subscribe to live PostgreSQL Change Data Capture (CDC)</span>{'\n'}
+                      <span className="text-[#c678dd]">const</span> subscription = stratum{'\n'}
+                      {'  '}.<span className="text-[#61afef]">channel</span>(<span className="text-[#98c379]">&apos;public:orders&apos;</span>){'\n'}
+                      {'  '}.<span className="text-[#61afef]">on</span>(<span className="text-[#98c379]">&apos;INSERT&apos;</span>, (payload) =&gt; {'{'}{'\n'}
+                      {'    '}console.<span className="text-[#61afef]">log</span>(<span className="text-[#98c379]">&apos;New order received in realtime:&apos;</span>, payload.new);{'\n'}
+                      {'  '}&apos;{'}'}){'\n'}
+                      {'  '}.<span className="text-[#61afef]">subscribe</span>();
+                    </pre>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -632,17 +689,20 @@ const subscription = stratum
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-lg flex flex-col sm:flex-row items-center gap-6 sm:gap-8 dark:border-slate-800 dark:bg-slate-900">
             <img
-              src="https://avatars.githubusercontent.com/u/102925763?v=4"
+              src="https://avatars.githubusercontent.com/u/197761551?v=4"
               alt="Jojin John"
               className="h-24 w-24 rounded-full border-2 border-blue-500 object-cover shadow-md"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'https://github.com/jojin1709.png';
+              }}
             />
             <div className="space-y-2 text-center sm:text-left flex-1">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-xs font-mono text-blue-600 dark:border-blue-900 dark:bg-blue-950/60 dark:text-blue-400">
                 Architect & Engineer
               </div>
               <h3 className="text-xl font-bold text-ink">Jojin John</h3>
-              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-                Full Stack Developer, Ethical Hacker, and Security Researcher. Architected <strong>Stratum</strong> to deliver the fastest, self-hostable, serverless Backend-as-a-Service on top of PostgreSQL and Edge computing.
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                Unlocking digital realms as an ethical hacker by day, crafting seamless experiences as a full stack developer by night. <span className="text-blue-600 dark:text-blue-400 font-semibold">#CyberGuardian #CodeWizard</span>. Architected <strong>Stratum</strong> to deliver the fastest, self-hostable, serverless Backend-as-a-Service on top of PostgreSQL and Edge computing.
               </p>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-2">
                 <a
